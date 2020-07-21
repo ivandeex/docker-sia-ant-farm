@@ -29,7 +29,7 @@ By default the Sia Ant Farm docker image has a copy of
 `config/basic-renter-5-hosts-docker.json` configuration file.
 
 If you want to execute Ant Farm with a custom configuration, create your custom
-configuration e.g. `config/custom-cfg.json`, mount your config directory and
+configuration e.g. `config/custom-config.json`, mount your config directory and
 set `CONFIG` environment variable to your custom configuration by executing:
 ```
 docker run \
