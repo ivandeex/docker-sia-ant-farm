@@ -10,7 +10,7 @@ RUN mkdir config && \
     mkdir antfarm-data
 
 # Download sia-antfarm and siad-dev binaries
-ARG SIA_ANTFARM_VERSION=docker-test-007
+ARG SIA_ANTFARM_VERSION=docker-test-008
 WORKDIR /sia-antfarm
 RUN curl -o tag-page.html --fail "https://gitlab.com/NebulousLabs/Sia-Ant-Farm/-/tags/${SIA_ANTFARM_VERSION}" && \
     download_link="https://gitlab.com$(cat tag-page.html | grep job=build | grep -Po '(?<=href=\")[^\"]*')" && \
@@ -23,7 +23,7 @@ RUN curl -o tag-page.html --fail "https://gitlab.com/NebulousLabs/Sia-Ant-Farm/-
 
 # Copy default config
 ENV CONFIG=config/basic-renter-5-hosts-docker.json
-COPY config/basic-renter-5-hosts-docker.json config/
+COPY ${CONFIG} config/
 
 # Set path for sia-antfarm and siad-dev binaries
 ENV PATH=/sia-antfarm:$PATH
