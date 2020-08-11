@@ -1,5 +1,9 @@
 # Docker Sia Ant Farm
 
+[![Build Status](https://travis-ci.org/nebulouslabs/docker-sia-ant-farm.svg?branch=master)](https://travis-ci.org/nebulouslabs/docker-sia-ant-farm) 
+[![Docker Pulls](https://img.shields.io/docker/pulls/nebulouslabs/siaantfarm.svg?maxAge=604800)](https://hub.docker.com/r/nebulouslabs/siaantfarm/) 
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+
 [Sia Ant Farm](https://gitlab.com/NebulousLabs/Sia-Ant-Farm) in a Docker container.
 
 ## Running Ant Farm in Docker container
@@ -14,7 +18,17 @@ docker run \
 ```
 Port `127.0.0.1:9980` above is the renter API address which you can use to
 issue commands to the renter. For security reasons you should bind the port to
-localhost (see `127.0.0.1:9980` above)
+localhost (see `127.0.0.1:9980` above).
+
+### Container internal port forwarding
+Note that the renter's API port set in config is `10980` (see
+`"APIAddr": "127.0.0.1:10980"`) in config, but renter's API is accessible from
+container internal port `9980` (not `10980`). This is because the internal
+container's port `10980` is bound only to container's internal localhost IP
+`127.0.0.1` and is not accessible from container's outbound IP. That is why
+container's `127.0.0.1:10980` had to be forwarded from container's localhost IP
+`127.0.0.1` via `socat` (done by `run.sh`) inside the container to accept calls
+from non localhost IP of container.
 
 ### Change Port
 To change port on which you can access the renter (e.g. to 39980) execute:
