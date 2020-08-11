@@ -10,7 +10,7 @@ RUN mkdir config && \
     mkdir antfarm-data
 
 # Download sia-antfarm and siad-dev binaries
-ARG SIA_ANTFARM_VERSION=docker-test-008
+ARG SIA_ANTFARM_VERSION=v1.0.1
 WORKDIR /sia-antfarm
 RUN curl -o tag-page.html --fail "https://gitlab.com/NebulousLabs/Sia-Ant-Farm/-/tags/${SIA_ANTFARM_VERSION}" && \
     download_link="https://gitlab.com$(cat tag-page.html | grep job=build | grep -Po '(?<=href=\")[^\"]*')" && \
