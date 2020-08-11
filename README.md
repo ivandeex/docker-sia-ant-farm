@@ -1,7 +1,7 @@
 # Docker Sia Ant Farm
 
 [![Build Status](https://travis-ci.org/nebulouslabs/docker-sia-ant-farm.svg?branch=master)](https://travis-ci.org/nebulouslabs/docker-sia-ant-farm) 
-[![Docker Pulls](https://img.shields.io/docker/pulls/nebulouslabs/siaantfarm.svg?maxAge=604800)](https://hub.docker.com/r/nebulouslabs/siaantfarm/) 
+[![Docker Pulls](https://img.shields.io/docker/pulls/nebulouslabs/siaantfarm.svg?maxAge=604800)](https://hub.docker.com/r/nebulouslabs/siaantfarm) 
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
 [Sia Ant Farm](https://gitlab.com/NebulousLabs/Sia-Ant-Farm) in a Docker container.
