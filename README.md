@@ -6,9 +6,17 @@
 
 [Sia Ant Farm](https://gitlab.com/NebulousLabs/Sia-Ant-Farm) in a Docker container.
 
+## Supported Tags
+
+### Latest
+* **latest**
+
+### v1.0.1
+* **1.0.1**: Sia Ant Farm `v1.0.1` based on Sia `v.1.5.0`
+
 ## Running Ant Farm in Docker container
 
-### Basic Execution
+### Basic Usage
 To start Ant Farm with default configuration
 (`config/basic-renter-5-hosts-docker.json`) execute:
 ```
