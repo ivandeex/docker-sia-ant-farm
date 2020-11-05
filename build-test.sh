@@ -29,7 +29,7 @@ do
   docker run \
     --detach \
     --publish 127.0.0.1:9988:9980 \
-    --volume "${DUMMY_DATA_DIR}:/sia-antfarm/antfarm-data" \
+    --volume "${DUMMY_DATA_DIR}:/sia-antfarm/data" \
     --name sia-ant-farm-test-container \
     sia-ant-farm-image-test
 
