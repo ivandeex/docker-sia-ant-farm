@@ -5,7 +5,7 @@ RUN apt update && \
     apt-get install -y curl unzip && \
     apt-get install -y --no-install-recommends socat
 
-# Create config and data dirs
+# Create antfarm and data dirs
 RUN mkdir -p sia-antfarm/data
 
 # Download sia-antfarm and siad-dev binaries
