@@ -11,6 +11,9 @@
 ### Latest
 * **latest**
 
+### v1.0.2
+* **1.0.2**: Sia Ant Farm `v1.0.2` based on Sia `v.1.5.1`
+
 ### v1.0.1
 * **1.0.1**: Sia Ant Farm `v1.0.1` based on Sia `v.1.5.0`
 
@@ -62,11 +65,11 @@ docker run \
 ```
 
 ### Persistent Ant Farm Data
-There are several ways how to persist Ant Farm data. One way would be to create
-local `antfarm-data` directory and mount it the following way:
+There are several ways how to persist Ant Farm data. To store `antfarm-data` in
+the current directory can be done the following way:
 ```
 docker run \
     --publish 127.0.0.1:9980:9980 \
-    --volume $(pwd)/antfarm-data:/sia-antfarm/antfarm-data \
+    --volume $(pwd):/sia-antfarm/data \
     nebulouslabs/siaantfarm
 ```

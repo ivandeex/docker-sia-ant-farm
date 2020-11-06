@@ -4,7 +4,11 @@
 # container.
 socat tcp-listen:9980,reuseaddr,fork tcp:localhost:10980 &
 
+# Sia Antfarm deletes antfarm-data directory at startup, so this directory
+# itself can't be mounted as a volume, but an intermediary directory can be.
+cd data
+
 # We are using `exec` to start Sia Ant Farm in order to ensure that it will be
 # run as PID 1. We need that in order to have Sia Ant Farm receive OS signals
 # (e.g. SIGTERM) on container shutdown, so it can exit gracefully.
-exec sia-antfarm -config=${CONFIG}
+exec sia-antfarm -config=../${CONFIG}
