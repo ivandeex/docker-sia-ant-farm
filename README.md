@@ -11,6 +11,9 @@
 ### Latest
 * **latest**
 
+### v1.0.4
+* **1.0.4**: Sia Ant Farm `v1.0.4` based on Sia `v.1.5.3`
+
 ### v1.0.3
 * **1.0.3**: Sia Ant Farm `v1.0.3` based on Sia `v.1.5.2`
 
