@@ -11,17 +11,21 @@
 ### Latest
 * **latest**
 
+### v1.0.4.1
+* Sia Ant Farm `v1.0.4` based on Sia `v.1.5.3`
+* Allows publishing multiple ant HTTP API ports
+
 ### v1.0.4
-* **1.0.4**: Sia Ant Farm `v1.0.4` based on Sia `v.1.5.3`
+* Sia Ant Farm `v1.0.4` based on Sia `v.1.5.3`
 
 ### v1.0.3
-* **1.0.3**: Sia Ant Farm `v1.0.3` based on Sia `v.1.5.2`
+* Sia Ant Farm `v1.0.3` based on Sia `v.1.5.2`
 
 ### v1.0.2
-* **1.0.2**: Sia Ant Farm `v1.0.2` based on Sia `v.1.5.1`
+* Sia Ant Farm `v1.0.2` based on Sia `v.1.5.1`
 
 ### v1.0.1
-* **1.0.1**: Sia Ant Farm `v1.0.1` based on Sia `v.1.5.0`
+* Sia Ant Farm `v1.0.1` based on Sia `v.1.5.0`
 
 ## Running Ant Farm in Docker container
 
@@ -37,24 +41,6 @@ Port `127.0.0.1:9980` above is the renter API address which you can use to
 issue commands to the renter. For security reasons you should bind the port to
 localhost (see `127.0.0.1:9980` above).
 
-### Container internal port forwarding
-Note that the renter's API port set in config is `10980` (see
-`"APIAddr": "127.0.0.1:10980"`) in config, but renter's API is accessible from
-container internal port `9980` (not `10980`). This is because the internal
-container's port `10980` is bound only to container's internal localhost IP
-`127.0.0.1` and is not accessible from container's outbound IP. That is why
-container's `127.0.0.1:10980` had to be forwarded from container's localhost IP
-`127.0.0.1` via `socat` (done by `run.sh`) inside the container to accept calls
-from non localhost IP of container.
-
-### Change Port
-To change port on which you can access the renter (e.g. to 39980) execute:
-```
-docker run \
-    --publish 127.0.0.1:39980:9980 \
-    nebulouslabs/siaantfarm
-```
-
 ### Custom Configuration
 By default the Sia Ant Farm docker image has a copy of
 `config/basic-renter-5-hosts-docker.json` configuration file.
@@ -65,6 +51,58 @@ set `CONFIG` environment variable to your custom configuration by executing:
 ```
 docker run \
     --publish 127.0.0.1:9980:9980 \
+    --volume $(pwd)/config:/sia-antfarm/config \
+    --env CONFIG=config/custom-config.json \
+    nebulouslabs/siaantfarm
+```
+
+### Change Port
+To change port on which you can access the renter (e.g. to 39980) execute:
+```
+docker run \
+    --publish 127.0.0.1:39980:9980 \
+    nebulouslabs/siaantfarm
+```
+
+### Open multiple ports
+In default configuration only renter's HTTP API port is accessible from outside
+of the docker container. If you want to configure access to more or all the
+ants, you need to use custom configuration file (described above) and each
+ant's HTTP API port needs to be set in 2 places:
+* In the configuration file
+* Pubished when starting docker container
+
+#### Specify port in configuration file
+`APIAddr` setting needs to be set in the configuration file same way as it is
+set for renter ant in default configuration file
+`config/basic-renter-5-hosts-docker.json`. Hostname part can only have one of
+two values: `127.0.0.1` or `localhost`.
+
+Example snippet:
+```
+        ...
+		{
+			"AllowHostLocalNetAddress": true,
+            "APIAddr": "127.0.0.1:10980",
+			"Name": "host1",
+			"Jobs": [
+				"host"
+			],
+			"DesiredCurrency": 100000
+		},
+        ...
+```
+
+#### Publish port when starting docker
+Once you have prepared configuration file, you can start the container. You
+need to set the path to custom configuration via `CONFIG` environment variable
+and publish each port via `--publish` flag.
+
+Example docker run command:
+```
+docker run \
+    --publish 127.0.0.1:9980:9980 \
+    --publish 127.0.0.1:10980:10980 \
     --volume $(pwd)/config:/sia-antfarm/config \
     --env CONFIG=config/custom-config.json \
     nebulouslabs/siaantfarm

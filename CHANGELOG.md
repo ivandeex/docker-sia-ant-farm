@@ -1,5 +1,11 @@
 # Sia Antfarm Docker Image Changelog
 
+## Nov 18, 2020:
+### v1.0.4.1
+**Key Updates**
+- Allow to publish all APIAddr ports by parsing config and setting socat port
+  forwarding automatically.
+
 ## Nov 13, 2020:
 ### v1.0.4
 **Key Updates**

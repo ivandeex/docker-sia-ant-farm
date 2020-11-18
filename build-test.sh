@@ -19,12 +19,14 @@ cleanup_test_containers
 for DIR in ./
 do
   docker build \
+    --no-cache \
     --tag sia-ant-farm-image-test \
     -f $DIR/Dockerfile \
     .
 
   export DUMMY_DATA_DIR=$(mktemp -d)
 
+  # Test with a single published port
   # Run container in detached state
   docker run \
     --detach \
@@ -39,6 +41,24 @@ do
   echo "Got consensus successfully"
 
   docker rm -f sia-ant-farm-test-container
+
+  # Test with 2 published ports
+  docker run \
+    --detach \
+    --publish 127.0.0.1:9988:9980 \
+    --publish 127.0.0.1:10988:10980 \
+    --volume "${DUMMY_DATA_DIR}:/sia-antfarm/data" \
+    --volume "$(pwd)/config:/sia-antfarm/config" \
+    --env CONFIG=config/basic-renter-5-hosts-2-api-ports-docker.json \
+    --name sia-ant-farm-test-2-apis-container \
+    sia-ant-farm-image-test
+  
+  # Wait till both APIs (/consensus) are accessible
+  echo "Get consensus..."
+  timeout 120 bash -c 'until curl -A "Sia-Agent" --fail "http://localhost:9988/consensus"; do sleep 1; done' && timeout 10 bash -c 'until curl -A "Sia-Agent" --fail "http://localhost:10988/consensus"; do sleep 1; done'
+  echo "Got consensus successfully"
+
+  docker rm -f sia-ant-farm-test-2-apis-container
 done
 
 cleanup_test_containers
