@@ -37,7 +37,11 @@ do
 
   # Wait till API (/consensus) is accessible
   echo "Get consensus..."
-  timeout 120 bash -c 'until curl -A "Sia-Agent" --fail "http://localhost:9988/consensus"; do sleep 1; done'
+  timeout 120 bash -c \
+    'until curl -A "Sia-Agent" --fail "http://localhost:7777/consensus"
+     do
+       sleep 1
+     done'
   echo "Got consensus successfully"
 
   docker rm -f sia-ant-farm-test-container
