@@ -11,8 +11,7 @@
 ### Latest
 * **latest**
 
-### v1.0.4.1
-* Sia Ant Farm `v1.0.4` based on Sia `v.1.5.3`
+### v1.0.5
 * Allows publishing multiple ant HTTP API ports
 
 ### v1.0.4
