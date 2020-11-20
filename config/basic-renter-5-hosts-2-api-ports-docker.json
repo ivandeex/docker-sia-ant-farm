@@ -10,6 +10,7 @@
 		},
 		{
 			"AllowHostLocalNetAddress": true,
+			"APIAddr": "127.0.0.1:10980",
 			"Name": "host1",
 			"Jobs": [
 				"host"
