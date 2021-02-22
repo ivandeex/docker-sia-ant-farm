@@ -1,3 +1,8 @@
+## Feb 22, 2021:
+### v1.1.0
+**Key Updates**
+- Update Docker image to use Sia Antfarm `v1.1.0` which uses Sia `v1.5.4`.
+
 ## Nov 18, 2020:
 ### v1.0.5
 **Key Updates**
