@@ -11,20 +11,23 @@
 ### Latest
 * **latest**
 
+### v1.1.0
+* Sia AntFarm `v1.1.0` based on Sia `v1.5.4`
+
 ### v1.0.5
 * Allows publishing multiple ant HTTP API ports
 
 ### v1.0.4
-* Sia Ant Farm `v1.0.4` based on Sia `v.1.5.3`
+* Sia Ant Farm `v1.0.4` based on Sia `v1.5.3`
 
 ### v1.0.3
-* Sia Ant Farm `v1.0.3` based on Sia `v.1.5.2`
+* Sia Ant Farm `v1.0.3` based on Sia `v1.5.2`
 
 ### v1.0.2
-* Sia Ant Farm `v1.0.2` based on Sia `v.1.5.1`
+* Sia Ant Farm `v1.0.2` based on Sia `v1.5.1`
 
 ### v1.0.1
-* Sia Ant Farm `v1.0.1` based on Sia `v.1.5.0`
+* Sia Ant Farm `v1.0.1` based on Sia `v1.5.0`
 
 ## Running Ant Farm in Docker container
 
