@@ -1,5 +1,11 @@
 # Sia Antfarm Docker Image Changelog
 
+## Mar 8, 2021:
+### v1.1.2
+**Key Updates**
+- Update Docker image to use Sia Antfarm `v1.1.2` which contains several
+  Antfarm stability updates.
+
 ## Mar 4, 2021:
 ### v1.1.1
 **Key Updates**

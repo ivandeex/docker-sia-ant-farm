@@ -9,7 +9,7 @@ RUN apt update && \
 RUN mkdir -p sia-antfarm/data
 
 # Download sia-antfarm and siad-dev binaries
-ARG SIA_ANTFARM_VERSION=v1.1.1
+ARG SIA_ANTFARM_VERSION=v1.1.2
 WORKDIR /sia-antfarm
 RUN curl -o tag-page.html --fail "https://gitlab.com/NebulousLabs/Sia-Ant-Farm/-/tags/${SIA_ANTFARM_VERSION}" && \
     download_link="https://gitlab.com$(cat tag-page.html | grep job=build | grep -Po '(?<=href=\")[^\"]*')" && \
