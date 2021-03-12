@@ -25,4 +25,4 @@ cd data
 # We are using `exec` to start Sia Ant Farm in order to ensure that it will be
 # run as PID 1. We need that in order to have Sia Ant Farm receive OS signals
 # (e.g. SIGTERM) on container shutdown, so it can exit gracefully.
-exec sia-antfarm -config=../$CONFIG
+exec sia-antfarm-dev -config=../$CONFIG
