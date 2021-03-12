@@ -11,8 +11,8 @@
 ### Latest
 * **latest**
 
-### 1.1.2
-* Sia AntFarm `v1.1.2` with AntFarm stability updates
+### 1.1.3
+* Sia AntFarm `v1.1.3` with AntFarm stability updates and updated build test
 
 ### 1.1.1
 * Sia AntFarm `v1.1.1` based on Sia `v1.5.5`

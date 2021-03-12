@@ -1,8 +1,14 @@
-## Mar 8, 2021:
-### v1.1.2
+## Mar 12, 2021:
+### v1.1.3
 **Key Updates**
-- Update Docker image to use Sia Antfarm `v1.1.2` which contains several
+- Use Antfarm `dev` version in the docker image to use Sia `dev` constants and
+  variables.
+- Update Docker image to use Sia Antfarm `v1.1.3` which contains several
   Antfarm stability updates.
+- Update build test to check that renter becomes upload ready within a timeout.
+
+**Other**
+- Refactor build test.
 
 ## Mar 4, 2021:
 ### v1.1.1

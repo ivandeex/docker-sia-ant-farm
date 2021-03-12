@@ -1,15 +1,16 @@
 FROM debian:10.4-slim
 
 # Install libraries
+# Antfarm requires 'ss' utility which is part of 'iproute2'
 RUN apt update && \
-    apt-get install -y curl unzip && \
+    apt-get install -y curl unzip iproute2 && \
     apt-get install -y --no-install-recommends socat
 
 # Create antfarm and data dirs
 RUN mkdir -p sia-antfarm/data
 
 # Download sia-antfarm and siad-dev binaries
-ARG SIA_ANTFARM_VERSION=v1.1.2
+ARG SIA_ANTFARM_VERSION=v1.1.3
 WORKDIR /sia-antfarm
 RUN curl -o tag-page.html --fail "https://gitlab.com/NebulousLabs/Sia-Ant-Farm/-/tags/${SIA_ANTFARM_VERSION}" && \
     download_link="https://gitlab.com$(cat tag-page.html | grep job=build | grep -Po '(?<=href=\")[^\"]*')" && \
