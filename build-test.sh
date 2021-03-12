@@ -26,40 +26,47 @@ exit_err_cleanup() {
 }
 
 ###############################################################################
-# cleanup_test_containers removes test containers.
+# cleanup_test_containers logs massages and calls the the subcall to remove
+# test containers.
 # Globals: none
 # Parameters: none
 ###############################################################################
 cleanup_test_containers() {
-  doing "Removing test containers"
+  log_cmd "Removing test containers" cleanup_test_containers_subcall
+}
+
+###############################################################################
+# cleanup_test_containers_subcall removes test containers without logs.
+# Globals: none
+# Parameters: none
+###############################################################################
+cleanup_test_containers_subcall() {
   CONTAINERS=$(docker ps -a -q --filter "name=sia-ant-farm-test-container")
   if [ ! -z $CONTAINERS ]; then
     docker stop $CONTAINERS
     docker rm   $CONTAINERS
   fi
-  finished
 }
 
 ###############################################################################
-# doing sets and echoes the given message.
-# Globals:
-# - DOING_MSG: variable to store the message for finished() function
+# log_cmd echoes the starting message, executes the command and echoes the
+# success message.
+# Globals: none
 # Parameters:
-# - $1: The message to be set and to be echoed
+# - $1: Log message
+# - the rest: Command with parameters to be executed
 ###############################################################################
-doing() {
-  DOING_MSG=$1
-  echo "$DOING_MSG..."
-}
+log_cmd() {
+  # Get and echo log message
+	local MSG=$1
+	echo "Starting: $MSG..."
 
-###############################################################################
-# finished echoes that the message finished.
-# Globals:
-# - DOING_MSG: variable to store the message from doing() function
-# Parameters: none
-###############################################################################
-finished() {
-  echo "$DOING_MSG finished successfully"
+  # Execute the command
+  shift 1
+	"$@"
+
+  # Log success
+	echo "Success: $MSG"
 }
 
 ###############################################################################
@@ -81,10 +88,8 @@ wait_for_consensus() {
       sleep 1
     done"
   
-  # execute
-  doing "Waiting for consensus at $url"
-  timeout $timeout sh -c "$cmd"
-  finished
+  # Execute
+  log_cmd "Waiting for consensus at $url" timeout $timeout sh -c "$cmd"
 }
 
 ###############################################################################
@@ -106,67 +111,68 @@ wait_for_renter_upload_ready() {
       sleep 1
     done"
   
-  # execute
-  doing "Waiting for renter to become upload ready at $url"
-  timeout $timeout sh -c "$cmd"
-  finished
+  # Execute
+  log_cmd "Waiting for renter to become upload ready at $url" timeout $timeout sh -c "$cmd"
 }
 
 # Remove test containers before we start
 cleanup_test_containers
 
 # Iterate over all Dockerfiles
-for DIR in ./
+for DIR in .
 do
   # Build the image
-  docker build \
+  log_cmd "Building a test image according to $DIR/Dockerfile" docker build \
     --no-cache \
     --tag sia-ant-farm-image-test \
     -f $DIR/Dockerfile \
     .
 
-  # Test with a single published port
+  # Test with a single published standard renter port
   # Run container in detached state
   DUMMY_DATA_DIR=$(mktemp -d)
-  doing "Starting test container"
-  docker run \
+  TEST1_RENTER_PORT=9980
+  
+  log_cmd "Test 1: Starting test container" docker run \
     --detach \
-    --publish 127.0.0.1:9988:9980 \
+    --publish 127.0.0.1:$TEST1_RENTER_PORT:9980 \
     --volume "${DUMMY_DATA_DIR}:/sia-antfarm/data" \
     --name sia-ant-farm-test-container \
     sia-ant-farm-image-test
-  finished
 
   # Wait till API (/consensus) is accessible
-  wait_for_consensus 120 9988
+  wait_for_consensus 120 $TEST1_RENTER_PORT
 
   # Wait for renter to become upload ready
-  wait_for_renter_upload_ready 300 9988
+  wait_for_renter_upload_ready 300 $TEST1_RENTER_PORT
 
   # Remove test container
   cleanup_test_containers
 
-  # Test with 2 published ports
+  # Test with 2 published ports:
+  # A non-standard renter port and a host port
   # Run container in detached state
+
   DUMMY_DATA_DIR=$(mktemp -d)
-  doing "Starting test container 2"
-  docker run \
+  TEST2_RENTER_PORT=33333
+  TEST2_HOST_PORT=34444
+  
+  log_cmd "Test 2: Starting test container" docker run \
     --detach \
-    --publish 127.0.0.1:9988:9980 \
-    --publish 127.0.0.1:10988:10980 \
+    --publish 127.0.0.1:$TEST2_RENTER_PORT:9980 \
+    --publish 127.0.0.1:$TEST2_HOST_PORT:10980 \
     --volume "${DUMMY_DATA_DIR}:/sia-antfarm/data" \
     --volume "$(pwd)/config:/sia-antfarm/config" \
     --env CONFIG=config/basic-renter-5-hosts-2-api-ports-docker.json \
     --name sia-ant-farm-test-container \
     sia-ant-farm-image-test
-  finished
   
   # Wait till both APIs (/consensus) are accessible
-  wait_for_consensus 120 9988
-  wait_for_consensus 10 10988
+  wait_for_consensus 120 $TEST2_RENTER_PORT
+  wait_for_consensus 10 $TEST2_HOST_PORT
   
   # Wait for renter to become upload ready
-  wait_for_renter_upload_ready 300 9988
+  wait_for_renter_upload_ready 300 $TEST2_RENTER_PORT
 
   # Remove test container
   cleanup_test_containers
